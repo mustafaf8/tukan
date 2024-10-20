@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Tukkan.Models.Product>
+
+<h2>Ürün Listesi</h2>
+<div class="product-list">
+    @foreach (var product in Model)
+    {
+            <div class="product-item">
+                <img src="@product.ImageUrl" alt="@product.Name" />
+                <h3>@product.Name</h3>
+                <p>@product.Description</p>
+                <p>Fiyat: @product.Price</p>
+                <a href="@Url.Action("Details", "Products", new { id = product.Id })">Detayları Gör</a>
+            </div>
+    }
+</div>

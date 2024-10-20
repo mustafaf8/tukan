@@ -1,0 +1,9 @@
+﻿@model IEnumerable<Tukkan.Models.Product>
+
+<h2>Sepet</h2>
+<ul>
+    @foreach (var product in Model)
+    {
+            <li>@product.Name - @product.Price</li>
+    }
+</ul>
