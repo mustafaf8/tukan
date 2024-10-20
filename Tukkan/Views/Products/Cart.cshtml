@@ -1,9 +1,11 @@
-﻿@model IEnumerable<Tukkan.Models.Product>
-
-<h2>Sepet</h2>
-<ul>
-    @foreach (var product in Model)
-    {
-            <li>@product.Name - @product.Price</li>
-    }
-</ul>
+﻿<h2>Sepet</h2> <ul> @if (Model.Products.Count > 0)
+	{
+		foreach (var product in Model.Products)
+		{
+			<li>@product.Name - @product.Price</li>
+		}
+	}
+	else
+	{
+		<li>Sepetinizde ürün yok.</li>
+	} </ul> <form asp-action="ClearCart" method="post"> <button type="submit">Sepeti Sıfırla</button> </form> ```

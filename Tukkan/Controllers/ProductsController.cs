@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tukkan.Models;
+
 using System.Collections.Generic;
+using Tukkan.Models;
 
 namespace Tukkan.Controllers
 {
     public class ProductsController : Controller
     {
+        private static Cart _cart = new Cart(); // Sepetimizi burada saklayalım
+
         private List<Product> products = new List<Product>
         {
             new Product { Id = 1, Name = "Ürün 1", Description = "Açıklama 1", Price = 100 },
@@ -29,10 +32,30 @@ namespace Tukkan.Controllers
             return View(product);
         }
 
+        // Sepete Ekle
+        [HttpPost]
+        public IActionResult AddToCart(int productId)
+        {
+            var product = products.Find(p => p.Id == productId);
+            if (product != null)
+            {
+                _cart.AddProduct(product);
+            }
+
+            return RedirectToAction("Index"); // Sepete ekledikten sonra listeye dönüyoruz
+        }
+
         // Sepet
         public IActionResult Cart()
         {
-            return View(products);
+            return View(_cart);
+        }
+
+        // Sepeti sıfırlamak için bir yöntem
+        public IActionResult ClearCart()
+        {
+            _cart.Clear();
+            return RedirectToAction("Cart");
         }
     }
 }

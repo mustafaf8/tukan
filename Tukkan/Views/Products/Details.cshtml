@@ -1,7 +1,1 @@
-﻿@model Tukkan.Models.Product
-
-<h2>@Model.Name</h2>
-<img src="@Model.ImageUrl" alt="@Model.Name" />
-<p>@Model.Description</p>
-<p>Fiyat: @Model.Price</p>
-<a href="@Url.Action("Cart", "Products")">Sepete Ekle</a>
+﻿<h2>@Model.Name</h2> <img src="@Model.ImageUrl" alt="@Model.Name" /> <p>@Model.Description</p> <p>Fiyat: @Model.Price</p> <form asp-action="AddToCart" method="post"> <input type="hidden" name="productId" value="@Model.Id" /> <button type="submit">Sepete Ekle</button> </form> <a href="@Url.Action("Cart", "Products")">Sepeti Gör</a> ```
