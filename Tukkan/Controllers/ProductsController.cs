@@ -1,61 +1,58 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
-using System.Collections.Generic;
 using Tukkan.Models;
 
 namespace Tukkan.Controllers
 {
     public class ProductsController : Controller
     {
-        private static Cart _cart = new Cart(); // Sepetimizi burada saklayalım
+        private readonly Cart _cart;
 
-        private List<Product> products = new List<Product>
+        public ProductsController(Cart cart)
         {
-            new Product { Id = 1, Name = "Ürün 1", Description = "Açıklama 1", Price = 100 },
-            new Product { Id = 2, Name = "Ürün 2", Description = "Açıklama 2", Price = 200 },
-            new Product { Id = 3, Name = "Ürün 3", Description = "Açıklama 3", Price = 300 }
-        };
+            _cart = cart;
+        }
 
-        // Ürün Listeleme
         public IActionResult Index()
         {
+            // Ürünleri buradan alarak Model'e geçebilirsiniz
+            var products = GetProducts(); // Ürünleri almak için bir yöntem (örnek)
             return View(products);
         }
 
-        // Ürün Detayı
-        public IActionResult Details(int id)
+        public IActionResult Cart()
         {
-            var product = products.Find(p => p.Id == id);
-            if (product == null)
-                return NotFound();
-
-            return View(product);
+            return View(_cart); // Sepet modelini view'a gönder
         }
 
-        // Sepete Ekle
         [HttpPost]
         public IActionResult AddToCart(int productId)
         {
-            var product = products.Find(p => p.Id == productId);
+            // Ürünü sepete ekle
+            var product = GetProductById(productId); // Ürünü almak için bir yöntem (örnek)
             if (product != null)
             {
                 _cart.AddProduct(product);
             }
-
-            return RedirectToAction("Index"); // Sepete ekledikten sonra listeye dönüyoruz
+            return RedirectToAction("Index"); // Ürün listesine yönlendir
         }
 
-        // Sepet
-        public IActionResult Cart()
+        private Product GetProductById(int productId)
         {
-            return View(_cart);
+            // Burada ürün bilgilerini veritabanından veya bir listeden almanız gerekiyor
+            // Örnek olarak hardcoded bir ürün dönebiliriz
+            return new Product { Id = productId, Name = $"Ürün {productId}", Price = 100 }; // Örnek ürün
         }
 
-        // Sepeti sıfırlamak için bir yöntem
-        public IActionResult ClearCart()
+        private List<Product> GetProducts()
         {
-            _cart.Clear();
-            return RedirectToAction("Cart");
+            // Burada tüm ürünleri veritabanından veya bir listeden almanız gerekiyor
+            // Örnek olarak hardcoded bir ürün listesi dönebiliriz
+            return new List<Product>
+            {
+                new Product { Id = 1, Name = "Ürün 1", Price = 100 },
+                new Product { Id = 2, Name = "Ürün 2", Price = 150 },
+                new Product { Id = 3, Name = "Ürün 3", Price = 200 }
+            };
         }
     }
 }

@@ -1,11 +1,24 @@
-﻿<h2>Sepet</h2> <ul> @if (Model.Products.Count > 0)
-	{
-		foreach (var product in Model.Products)
-		{
-			<li>@product.Name - @product.Price</li>
-		}
-	}
-	else
-	{
-		<li>Sepetinizde ürün yok.</li>
-	} </ul> <form asp-action="ClearCart" method="post"> <button type="submit">Sepeti Sıfırla</button> </form> ```
+﻿@model Tukkan.Models.Cart
+
+@{
+    ViewData["Title"] = "Sepet";
+    ViewData["ActiveTab"] = "Cart"; // Aktif sekme
+}
+
+<h2>Sepetiniz</h2>
+<div class="cart-list">
+    @if (!Model.Products.Any()) // Model.Products üzerinden kontrol
+    {
+            <p>Sepetinizde ürün bulunmamaktadır.</p>
+    }
+    else
+    {
+        foreach (var product in Model.Products)
+        {
+                    <div class="cart-item">
+                        <h3>@product.Name</h3>
+                        <p>Fiyat: @product.Price</p>
+                    </div>
+        }
+    }
+</div>

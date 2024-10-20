@@ -1,7 +1,12 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Tukkan.Models;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Cart sınıfını singleton olarak ekliyoruz
+builder.Services.AddSingleton<Cart>();
 
 var app = builder.Build();
 
@@ -19,9 +24,8 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-// Route ayarlarını güncelleyelim
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Products}/{action=Index}/{id?}"); // Ürünler controller'ı varsayılan olarak ayarlandı
+    pattern: "{controller=Products}/{action=Index}/{id?}");
 
 app.Run();
