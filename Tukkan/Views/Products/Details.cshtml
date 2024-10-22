@@ -1,1 +1,22 @@
-﻿<h2>@Model.Name</h2> <img src="@Model.ImageUrl" alt="@Model.Name" /> <p>@Model.Description</p> <p>Fiyat: @Model.Price</p> <form asp-action="AddToCart" method="post"> <input type="hidden" name="productId" value="@Model.Id" /> <button type="submit">Sepete Ekle</button> </form> <a href="@Url.Action("Cart", "Products")">Sepeti Gör</a> ```
+﻿@model Tukkan.Models.Product
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>@Model.Name - Detaylar</title>
+    <link rel="stylesheet" href="~/css/styles.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>@Model.Name</h2>
+        <p><strong>Fiyat:</strong> @Model.Price TL</p>
+        <p><strong>Açıklama:</strong> @Model.Description</p>
+        <form asp-action="AddToCart" method="post">
+            <input type="hidden" name="productId" value="@Model.Id" />
+            <button type="submit" class="btn btn-primary">Sepete Ekle</button>
+        </form>
+        <a href="@Url.Action("Index", "Products")">Geri Dön</a>
+    </div>
+</body>
+</html>

@@ -1,5 +1,31 @@
-﻿@model IEnumerable<Tukkan.Models.Product>
+﻿@model List<Tukkan.Models.Product>
 
-@{ ViewData["Title"] = "Ürünler"; ViewData["ActiveTab"] = "Products"; }
-
-<h2>Ürün Listesi</h2> <div class="product-list"> @foreach (var product in Model) { <div class="product-item"> <img src="@product.ImageUrl" alt="@product.Name" /> <h3>@product.Name</h3> <p>@product.Description</p> <p>Fiyat: @product.Price</p> <form asp-action="AddToCart" method="post"> <input type="hidden" name="productId" value="@product.Id" /> <button type="submit">Sepete Ekle</button> </form> </div> } </div> ```
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>Ürünler</title>
+    <link rel="stylesheet" href="~/css/styles.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>Ürünler</h2>
+        <div class="product-list">
+            @foreach (var product in Model)
+            {
+                <div class="product-item">
+                    <a asp-action="Details" asp-route-id="@product.Id" style="text-decoration: none; color: inherit;">
+                        <img src="~/images/urun1.jpg" alt="@product.Name" />
+                        <h3>@product.Name</h3>
+                        <p>Fiyat: @product.Price TL</p>
+                    </a>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="productId" value="@product.Id" />
+                        <button type="submit" class="btn">Sepete Ekle</button>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

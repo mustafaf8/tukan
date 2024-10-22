@@ -7,18 +7,42 @@
 
 <h2>Sepetiniz</h2>
 <div class="cart-list">
-    @if (!Model.Products.Any()) // Model.Products üzerinden kontrol
+    @if (!Model.Products.Any())
     {
-            <p>Sepetinizde ürün bulunmamaktadır.</p>
+        <p>Sepetinizde ürün bulunmamaktadır.</p>
     }
     else
     {
-        foreach (var product in Model.Products)
+        foreach (var cartItem in Model.Products)
         {
-                    <div class="cart-item">
-                        <h3>@product.Name</h3>
-                        <p>Fiyat: @product.Price</p>
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    <img src="@Url.Content("~/images/" + cartItem.Product.Id + ".jpg")" alt="@cartItem.Product.Name" />
+                </div>
+                <div class="cart-item-details">
+                    <h3>@cartItem.Product.Name</h3>
+                    <p>Fiyat: @cartItem.Product.Price.ToString("C")</p>
+                    <p>Miktar: @cartItem.Quantity</p>
+                    <div class="cart-item-actions">
+                        <form asp-action="IncreaseQuantity" method="post" style="display:inline;">
+                            <input type="hidden" name="productId" value="@cartItem.Product.Id" />
+                            <button type="submit" class="btn btn-success">Artır</button>
+                        </form>
+                        <form asp-action="DecreaseQuantity" method="post" style="display:inline;">
+                            <input type="hidden" name="productId" value="@cartItem.Product.Id" />
+                            <button type="submit" class="btn btn-warning">Azalt</button>
+                        </form>
+                        <form asp-action="RemoveFromCart" method="post" style="display:inline;">
+                            <input type="hidden" name="productId" value="@cartItem.Product.Id" />
+                            <button type="submit" class="btn btn-danger">Sil</button>
+                        </form>
                     </div>
+                </div>
+            </div>
         }
     }
 </div>
+
+<form asp-action="Clear" method="post" style="margin-top: 20px;">
+    <button type="submit" class="btn btn-danger">Sepeti Temizle</button>
+</form>
