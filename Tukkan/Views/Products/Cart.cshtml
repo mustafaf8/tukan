@@ -1,48 +1,37 @@
 ﻿@model Tukkan.Models.Cart
 
-@{
-    ViewData["Title"] = "Sepet";
-    ViewData["ActiveTab"] = "Cart"; // Aktif sekme
-}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>Sepet</title>
+    <link rel="stylesheet" href="~/css/styles.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>Sepet Özeti</h2>
 
-<h2>Sepetiniz</h2>
-<div class="cart-list">
-    @if (!Model.Products.Any())
-    {
-        <p>Sepetinizde ürün bulunmamaktadır.</p>
-    }
-    else
-    {
-        foreach (var cartItem in Model.Products)
+        @if (Model.Items.Any())
         {
-            <div class="cart-item">
-                <div class="cart-item-image">
-                    <img src="@Url.Content("~/images/" + cartItem.Product.Id + ".jpg")" alt="@cartItem.Product.Name" />
-                </div>
-                <div class="cart-item-details">
-                    <h3>@cartItem.Product.Name</h3>
-                    <p>Fiyat: @cartItem.Product.Price.ToString("C")</p>
-                    <p>Miktar: @cartItem.Quantity</p>
-                    <div class="cart-item-actions">
-                        <form asp-action="IncreaseQuantity" method="post" style="display:inline;">
-                            <input type="hidden" name="productId" value="@cartItem.Product.Id" />
-                            <button type="submit" class="btn btn-success">Artır</button>
-                        </form>
-                        <form asp-action="DecreaseQuantity" method="post" style="display:inline;">
-                            <input type="hidden" name="productId" value="@cartItem.Product.Id" />
-                            <button type="submit" class="btn btn-warning">Azalt</button>
-                        </form>
-                        <form asp-action="RemoveFromCart" method="post" style="display:inline;">
-                            <input type="hidden" name="productId" value="@cartItem.Product.Id" />
-                            <button type="submit" class="btn btn-danger">Sil</button>
-                        </form>
-                    </div>
-                </div>
+            foreach (var item in Model.Items)
+            {
+        <div class="cart-item">
+            <div class="cart-item-details">
+                <span>Ürün Adı: @item.Product.Name</span>
+                <span>Adet: @item.Quantity</span>
+                <span>Fiyat: @item.Product.Price.ToString("C")</span>
             </div>
-        }
-    }
-</div>
+        </div>
+            }
 
-<form asp-action="Clear" method="post" style="margin-top: 20px;">
-    <button type="submit" class="btn btn-danger">Sepeti Temizle</button>
-</form>
+        <div class="cart-total">
+            <h3>Toplam Tutar: <span id="total-amount">@Model.TotalAmount.ToString("C")</span></h3>
+        </div>
+        }
+        else
+        {
+        <p>Sepetinizde ürün bulunmamaktadır.</p>
+        }
+    </div>
+</body>
+</html>

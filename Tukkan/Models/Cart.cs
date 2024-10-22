@@ -5,33 +5,38 @@ namespace Tukkan.Models
 {
     public class Cart
     {
-        public List<CartItem> Products { get; set; } = new List<CartItem>();
+        private List<CartItem> _items = new List<CartItem>();
 
         public void AddProduct(Product product)
         {
-            var cartItem = Products.FirstOrDefault(p => p.Product.Id == product.Id);
-            if (cartItem == null)
+            var cartItem = _items.FirstOrDefault(i => i.Product.Id == product.Id);
+            if (cartItem != null)
             {
-                Products.Add(new CartItem { Product = product, Quantity = 1 });
+                cartItem.Quantity++;
             }
             else
             {
-                cartItem.Quantity++;
+                _items.Add(new CartItem { Product = product, Quantity = 1 });
             }
         }
 
         public void RemoveProduct(int productId)
         {
-            var cartItem = Products.FirstOrDefault(p => p.Product.Id == productId);
+            var cartItem = _items.FirstOrDefault(i => i.Product.Id == productId);
             if (cartItem != null)
             {
-                Products.Remove(cartItem);
+                _items.Remove(cartItem);
             }
+        }
+
+        public void Clear()
+        {
+            _items.Clear();
         }
 
         public void IncreaseQuantity(int productId)
         {
-            var cartItem = Products.FirstOrDefault(p => p.Product.Id == productId);
+            var cartItem = _items.FirstOrDefault(i => i.Product.Id == productId);
             if (cartItem != null)
             {
                 cartItem.Quantity++;
@@ -40,24 +45,21 @@ namespace Tukkan.Models
 
         public void DecreaseQuantity(int productId)
         {
-            var cartItem = Products.FirstOrDefault(p => p.Product.Id == productId);
-            if (cartItem != null)
+            var cartItem = _items.FirstOrDefault(i => i.Product.Id == productId);
+            if (cartItem != null && cartItem.Quantity > 1)
             {
-                if (cartItem.Quantity > 1)
-                {
-                    cartItem.Quantity--;
-                }
-                else
-                {
-                    Products.Remove(cartItem);
-                }
+                cartItem.Quantity--;
+            }
+            else if (cartItem != null && cartItem.Quantity == 1)
+            {
+                RemoveProduct(productId);
             }
         }
 
-        public void Clear()
-        {
-            Products.Clear();
-        }
+        public List<CartItem> Items => _items;
+
+        // Toplam tutarı hesaplayan metot
+        public decimal TotalAmount => _items.Sum(i => i.Product.Price * i.Quantity);
     }
 
     public class CartItem
