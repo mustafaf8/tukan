@@ -57,16 +57,16 @@ namespace Tukkan.Controllers
 
         private Product GetProductById(int productId)
         {
-            return new Product { Id = productId, Name = $"Ürün {productId}", Price = 100 }; // Örnek ürün
+            return new Product { Id = productId, Name = $"Ürün {productId}", Price = 100, Description="Örnek Ürün Açıklaması", Stock=15 }; // Örnek ürün
         }
 
         private List<Product> GetProducts()
         {
             return new List<Product>
     {
-        new Product { Id = 1, Name = "Ürün 1", Price = 100, Description = "Ürün 1 açıklaması." },
-        new Product { Id = 2, Name = "Ürün 2", Price = 150, Description = "Ürün 2 açıklaması." },
-        new Product { Id = 3, Name = "Ürün 3", Price = 200, Description = "Ürün 3 açıklaması." }
+        new Product { Id = 1, Name = "Ürün 1", Price = 100, Description = "Ürün 1 açıklaması.",Stock=10 },
+        new Product { Id = 2, Name = "Ürün 2", Price = 150, Description = "Ürün 2 açıklaması.", Stock=15 },
+        new Product { Id = 3, Name = "Ürün 3", Price = 200, Description = "Ürün 3 açıklaması.", Stock= 15 }
     };
         }
 

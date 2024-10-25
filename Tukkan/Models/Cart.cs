@@ -5,8 +5,13 @@ namespace Tukkan.Models
 {
     public class Cart
     {
-        private List<CartItem> _items = new List<CartItem>();
+        // Sepetteki ürünleri tutacak liste
+        private List<CartProductItem> _items = new List<CartProductItem>();
 
+        // Sepet içindeki ürünleri dışarıya sunan özellik
+        public List<CartProductItem> Items => _items;
+
+        // Ürün ekleme metodu
         public void AddProduct(Product product)
         {
             var cartItem = _items.FirstOrDefault(i => i.Product.Id == product.Id);
@@ -16,10 +21,11 @@ namespace Tukkan.Models
             }
             else
             {
-                _items.Add(new CartItem { Product = product, Quantity = 1 });
+                _items.Add(new CartProductItem { Product = product, Quantity = 1 });
             }
         }
 
+        // Ürün çıkarma metodu
         public void RemoveProduct(int productId)
         {
             var cartItem = _items.FirstOrDefault(i => i.Product.Id == productId);
@@ -29,11 +35,7 @@ namespace Tukkan.Models
             }
         }
 
-        public void Clear()
-        {
-            _items.Clear();
-        }
-
+        // Ürün miktarını artırma metodu
         public void IncreaseQuantity(int productId)
         {
             var cartItem = _items.FirstOrDefault(i => i.Product.Id == productId);
@@ -43,6 +45,7 @@ namespace Tukkan.Models
             }
         }
 
+        // Ürün miktarını azaltma metodu
         public void DecreaseQuantity(int productId)
         {
             var cartItem = _items.FirstOrDefault(i => i.Product.Id == productId);
@@ -56,15 +59,13 @@ namespace Tukkan.Models
             }
         }
 
-        public List<CartItem> Items => _items;
-
-        // Toplam tutarı hesaplayan metot
+        // Toplam tutarı hesaplayan özellik
         public decimal TotalAmount => _items.Sum(i => i.Product.Price * i.Quantity);
-    }
 
-    public class CartItem
-    {
-        public Product Product { get; set; }
-        public int Quantity { get; set; }
+        // Sepeti temizleme metodu
+        public void Clear()
+        {
+            _items.Clear();
+        }
     }
 }

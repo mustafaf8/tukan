@@ -156,45 +156,46 @@
 
         @if (Model.Items.Any())
         {
-        <div class="cart-list">
-            @foreach (var item in Model.Items)
+            <div class="cart-list">
+                @foreach (var item in Model.Items)
                 {
-            <div class="cart-item">
-                <img src="~/images/@($"{item.Product.Id}.jpg")" alt="@item.Product.Name" />
-                <div class="cart-item-details">
-                    <h3>@item.Product.Name</h3>
-                    <p>Adet: @item.Quantity</p>
-                    <p>Fiyat: @item.Product.Price.ToString("C")</p>
-                </div>
-                <div class="cart-item-actions">
-                    <form asp-action="IncreaseQuantity" method="post" style="display:inline;">
-                        <input type="hidden" name="productId" value="@item.Product.Id" />
-                        <button type="submit" class="btn btn-success">Artır</button>
-                    </form>
-                    <form asp-action="DecreaseQuantity" method="post" style="display:inline;">
-                        <input type="hidden" name="productId" value="@item.Product.Id" />
-                        <button type="submit" class="btn btn-warning">Azalt</button>
-                    </form>
-                    <form asp-action="RemoveFromCart" method="post" style="display:inline;">
-                        <input type="hidden" name="productId" value="@item.Product.Id" />
-                        <button type="submit" class="btn btn-danger">Sil</button>
-                    </form>
-                </div>
-            </div>
+                    <div class="cart-item">
+                        <img src="~/images/@($"{item.Product.Id}.jpg")" alt="@item.Product.Name" />
+                        <div class="cart-item-details">
+                            <h3>@item.Product.Name</h3>
+                            <p>Adet: @item.Quantity</p>
+                            <p>Fiyat: @item.Product.Price.ToString("C")</p>
+                            <p>Stok: @item.Product.Stock</p>
+                        </div>
+                        <div class="cart-item-actions">
+                            <form asp-action="IncreaseQuantity" method="post" style="display:inline;">
+                                <input type="hidden" name="productId" value="@item.Product.Id" />
+                                <button type="submit" class="btn btn-success">Artır</button>
+                            </form>
+                            <form asp-action="DecreaseQuantity" method="post" style="display:inline;">
+                                <input type="hidden" name="productId" value="@item.Product.Id" />
+                                <button type="submit" class="btn btn-warning">Azalt</button>
+                            </form>
+                            <form asp-action="RemoveFromCart" method="post" style="display:inline;">
+                                <input type="hidden" name="productId" value="@item.Product.Id" />
+                                <button type="submit" class="btn btn-danger">Sil</button>
+                            </form>
+                        </div>
+                    </div>
                 }
-        </div>
+            </div>
 
-        <div class="cart-total">
-            <h3>Toplam Tutar: <span>@Model.TotalAmount.ToString("C")</span></h3>
-        </div>
+            <div class="cart-total">
+                <h3>Toplam Tutar: <span>@Model.TotalAmount.ToString("C")</span></h3>
+            </div>
 
-        <form asp-action="Clear" method="post">
-            <button type="submit" class="clear-cart-btn">Sepeti Temizle</button>
-        </form>
+            <form asp-action="Clear" method="post">
+                <button type="submit" class="clear-cart-btn">Sepeti Temizle</button>
+            </form>
         }
         else
         {
-        <p>Sepetinizde ürün bulunmamaktadır.</p>
+            <p>Sepetinizde ürün bulunmamaktadır.</p>
         }
     </div>
 </body>
