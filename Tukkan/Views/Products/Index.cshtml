@@ -7,21 +7,78 @@
     <title>Ürünler</title>
     <link rel="stylesheet" href="~/css/styles.css" />
 </head>
+    <style>
+        .tow-side{
+           display:flex;
+           margin-top:50px;
+           gap:30px;
+
+        }
+        .side-bar{
+            width:20vw;
+            height:auto;
+            background-color:bisque;
+            position:relative;
+            top:-0px;
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.1); /* Gölgelendirme */
+            border-radius: 5px;
+            padding:5px;
+        }
+        li{
+            padding:10px;
+            list-style:none;
+            
+        }
+        .side-bar a{
+           text-decoration: none;
+           color:black;
+           
+           
+        }
+
+        .side-bar ul li:hover {
+        transition: transform 0.3s;
+                transform: scale(1.05);
+        }
+
+
+  
+
+    </style>
 <body>
-    <div class="container">
-        <h2>Ürünler</h2>
+   <div class="tow-side">
 
-        <!-- Kategori filtreleme bağlantıları -->
-        <div>
-            <a asp-action="Index" asp-route-category="Elektronik">Elektronik</a> |
-            <a asp-action="Index" asp-route-category="Kitap">Kitap</a> |
-            <a asp-action="Index" asp-route-category="Giyim">Giyim</a> |
-            <a asp-action="Index">Tüm Ürünler</a>
-        </div>
 
-        <div class="product-list">
-            @foreach (var product in Model)
-            {
+         <div class="left-column">
+
+                  <div class="side-bar">
+                      <h2>KATEGORİ</h2>
+                  </div>
+
+                  <div class="side-bar" style="margin-top:20px;">
+        
+                      <ul>
+                          <li><a asp-action="Index">Tüm Ürünler</a></li>
+                          <li><a asp-action="Index" asp-route-category="Elektronik">Elektronik</a> </li>
+                          <li><a asp-action="Index" asp-route-category="Kitap">Kitap</a> </li>
+                          <li><a asp-action="Index" asp-route-category="Giyim">Giyim</a> </li>
+        
+        
+                      </ul>
+                  </div>
+         </div>
+
+
+        <div class="container">
+           
+
+            <!-- Kategori filtreleme bağlantıları -->
+            <div>
+            </div>
+
+            <div class="product-list">
+                @foreach (var product in Model)
+                {
                     <div class="product-item">
                         <a asp-action="Details" asp-route-id="@product.Id" style="text-decoration: none; color: inherit;">
                             <img src="@product.ImageUrl" alt="@product.Name" style="max-width: 100%; height: auto;" />
@@ -31,11 +88,12 @@
                         </a>
                         <form asp-action="AddToCart" method="post">
                             <input type="hidden" name="productId" value="@product.Id" />
-                            <button type="submit" class="btn">Sepete Ekle</button>
+                            <button type="submit" class="btn" style="background-color:orange;">Sepete Ekle</button>
                         </form>
                     </div>
-            }
+                }
+            </div>
         </div>
-    </div>
+   </div>
 </body>
 </html>
