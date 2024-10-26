@@ -6,134 +6,20 @@
     <meta charset="utf-8" />
     <title>@Model.Name - Detaylar</title>
     <link rel="stylesheet" href="~/css/styles.css" />
-    <style>
-        /* Genel Stil Ayarları */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        h2 {
-            text-align: center;
-            color: #333;
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .product-image {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .product-image img {
-            max-width: 300px;
-            height: auto;
-            border-radius: 8px;
-        }
-
-        .product-details {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .product-details p {
-            margin: 10px 0;
-            font-size: 1.2rem;
-            color: #666;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 1rem;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-            border: none;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-
-        .btn-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .btn-container a,
-        .btn-container button {
-            flex: 1;
-            margin: 0 10px;
-        }
-
-        /* Responsive Tasarım */
-            .container {
-                padding: 10px;
-            }
-
-            .btn-container {
-                flex-direction: column;
-            }
-
-            .btn-container a,
-            .btn-container button {
-                margin: 10px 0;
-                flex: none;
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <h2>@Model.Name</h2>
-
-        <div class="product-image">
-            <img src="~/images/@($"{Model.Id}.jpg")" alt="@Model.Name">
-        </div>
-
-        <div class="product-details">
-            <p><strong>Fiyat:</strong> @Model.Price.ToString("C")</p>
-            <p><strong>Açıklama:</strong> @Model.Description</p>
-            <p><strong>Stok:</strong> @Model.Stock</p>
-        </div>
-
-        <div class="btn-container">
-            <a href="@Url.Action("Index", "Products")" class="btn btn-secondary">Geri Dön</a>
-            <form asp-action="AddToCart" method="post" style="display:inline;">
-                <input type="hidden" name="productId" value="@Model.Id" />
-                <button type="submit" class="btn btn-primary">Sepete Ekle</button>
-            </form>
-        </div>
+        <img src="@Model.ImageUrl" alt="@Model.Name" style="max-width: 300px; height: auto;" />
+        <p><strong>Fiyat:</strong> @Model.Price.ToString("C")</p>
+        <p><strong>Kategori:</strong> @Model.Category</p>
+        <p><strong>Açıklama:</strong> @Model.Description</p>
+        <p><strong>Stok:</strong> @Model.Stock</p>
+        <form asp-action="AddToCart" method="post">
+            <input type="hidden" name="productId" value="@Model.Id" />
+            <button type="submit" class="btn">Sepete Ekle</button>
+        </form>
+        <a href="@Url.Action("Index", "Products")">Geri Dön</a>
     </div>
 </body>
 </html>

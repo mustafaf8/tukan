@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Tukkan.Models;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Tukkan.Controllers
 {
@@ -12,9 +14,22 @@ namespace Tukkan.Controllers
             _cart = cart;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string category = null, bool randomOrder = false)
         {
-            var products = GetProducts(); // Ürünleri almak için bir yöntem
+            var products = ProductData.Products;
+
+            // Kategoriye göre filtreleme
+            if (!string.IsNullOrEmpty(category))
+            {
+                products = products.Where(p => p.Category == category).ToList();
+            }
+
+            // Rastgele sıralama
+            if (randomOrder)
+            {
+                products = products.OrderBy(p => System.Guid.NewGuid()).ToList();
+            }
+
             return View(products);
         }
 
@@ -55,21 +70,15 @@ namespace Tukkan.Controllers
             return RedirectToAction("Cart");
         }
 
-        private Product GetProductById(int productId)
+        public IActionResult Details(int id)
         {
-            return new Product { Id = productId, Name = $"Ürün {productId}", Price = 100, Description="Örnek Ürün Açıklaması", Stock=15 }; // Örnek ürün
+            var product = GetProductById(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
         }
-
-        private List<Product> GetProducts()
-        {
-            return new List<Product>
-    {
-        new Product { Id = 1, Name = "Ürün 1", Price = 100, Description = "Ürün 1 açıklaması.",Stock=10 },
-        new Product { Id = 2, Name = "Ürün 2", Price = 150, Description = "Ürün 2 açıklaması.", Stock=15 },
-        new Product { Id = 3, Name = "Ürün 3", Price = 200, Description = "Ürün 3 açıklaması.", Stock= 15 }
-    };
-        }
-
 
         [HttpPost]
         public IActionResult Clear()
@@ -78,17 +87,9 @@ namespace Tukkan.Controllers
             return RedirectToAction("Cart");
         }
 
-        public IActionResult Details(int id)
+        private Product GetProductById(int productId)
         {
-            var product = GetProducts().FirstOrDefault(p => p.Id == id); // Sabit ürün listesinden bul
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return View(product);
+            return ProductData.Products.FirstOrDefault(p => p.Id == productId);
         }
-
-       
-
     }
 }
