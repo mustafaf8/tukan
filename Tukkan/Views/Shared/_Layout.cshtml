@@ -5,6 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - E-Ticaret Uygulaması</title>
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        /* Genel sayfa stili */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Footer temel ayarları */
+        .footer {
+            background-color: #333;
+            color: #f1f1f1;
+            padding: 40px 0;
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+            padding: 0 20px;
+            justify-content: space-between;
+        }
+
+        .footer-section {
+            flex: 1 1 200px;
+            min-width: 200px;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #ffc107;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: #f1f1f1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffc107;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #ffc107;
+        }
+
+        /* Alt kısımdaki telif hakkı yazısı */
+        .footer-bottom {
+            margin-top: 30px;
+            border-top: 1px solid #444;
+            padding-top: 20px;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        /* Sosyal medya ikonları için özel stil */
+        .footer-section a {
+            color: #ffc107;
+            margin: 0 5px;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        
+    </style>
 </head>
 <body>
     <div class="container">
@@ -22,7 +113,44 @@
             @RenderBody()
         </div>
     </div>
-
-
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <!-- Geliştirilmiş Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Hakkımızda</h4>
+                <p>Modern e-ticaret çözümleri sunan Tukkan, kullanıcılarına güvenli ve kaliteli bir alışveriş deneyimi sunmayı hedefler.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Hızlı Erişim</h4>
+                <ul>
+                    <li><a href="@Url.Action("Index", "Products")">Ürünler</a></li>
+                    <li><a href="@Url.Action("Cart", "Products")">Sepet</a></li>
+                    <li><a href="#">İletişim</a></li>
+                    <li><a href="#">Yardım</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>İletişim</h4>
+                <p>info@tukkan.com</p>
+                <p>+90 123 456 78 90</p>
+                <p>İstanbul, Türkiye</p>
+            </div>
+            <div class="footer-section">
+                <h4>Bizi Takip Edin</h4>
+                <a href="#">Facebook</a> |
+                <a href="#">Instagram</a> |
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2023 Tukkan - Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
 </body>
 </html>
