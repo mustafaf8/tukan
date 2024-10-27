@@ -1,216 +1,171 @@
-﻿@model Tukkan.Models.Cart
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
-    <title>Sepet</title>
-    <link rel="stylesheet" href="~/css/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - E-Ticaret Uygulaması</title>
+    <link rel="stylesheet" href="~/css/site.css" />
     <style>
-        /* Genel Stil Ayarları */
+        /* Genel sayfa stili */
+        * {
+           /*  outline: 2px solid red; */
+        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        .container {
+        /* Footer temel ayarları */
+        .footer {
+            background-color: #333;
+            color: #f1f1f1;
+            padding: 40px 0;
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
             max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 2rem;
-        }
-
-        .cart-list {
-            display: flex;
-            flex-direction: column;
+            margin: 0 auto;
             gap: 20px;
+            padding: 0 20px;
+            justify-content: space-between;
         }
 
-        .cart-item {
-            display: flex;
-            
-            
-            padding: 40px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+        .footer-section {
+            flex: 1 1 200px;
+            min-width: 200px;
         }
 
-        .cart-item img {
-            max-width: 300px;
-            
-            height: auto;
-            border-radius: 8px;
-            
-        }
-
-        .cart-item-details {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cart-item-details h3 {
-            font-size: 1.5rem;
+        .footer-section h4 {
+            font-size: 1.2rem;
             margin-bottom: 10px;
-            color: #333;
+            color: #ffc107;
         }
 
-        .cart-item-details p {
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-section ul li a {
+            color: #f1f1f1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffc107;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #ffc107;
+        }
+
+        /* Alt kısımdaki telif hakkı yazısı */
+        .footer-bottom {
+            margin-top: 30px;
+            border-top: 1px solid #444;
+            padding-top: 20px;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        /* Sosyal medya ikonları için özel stil */
+        .footer-section a {
+            color: #ffc107;
+            margin: 0 5px;
             font-size: 1.2rem;
-            color: #666;
+            transition: color 0.3s;
         }
 
-        .cart-item-actions {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+        .header-tabbar{
+           
+            position: sticky;
+            top: -0%;
+            width: 100%;
+            z-index: 1000; /* Üstte kalmasını sağlar */
+            text-align:center;
         }
-
-        .cart-item-actions button {
-            padding: 6px 11px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
+        .tabbar{
+            margin:0px;
+            display:flex;
+            justify-content:space-around;
+            align-items:center;
+            height:80px;
         }
-
-        .btn-success {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .btn-warning {
-            background-color: #ffc107;
-            color: white;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .cart-total {
-            text-align: right;
-            font-size: 1.5rem;
-            margin-top: 20px;
-            color: #333;
-        }
-
-        .cart-total span {
-            color: #28a745;
-        }
-
-        /* Sepeti Temizle Butonu */
-        .clear-cart-btn {
-            display: block;
-            margin: 20px 0;
-            padding: 10px 20px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 1.2rem;
-        }
-
-        .clear-cart-btn:hover {
-            background-color: #c82333;
-        }
-
-        
-            .cart-item {
-                flex-direction: row;
-                
-                
-            }
-
-            .cart-item img {
-                margin-bottom: 10px;
-            }
-
-            .cart-item-details {
-                margin-bottom: 10px;
-                text-align: center;
-            }
-
-            .cart-total {
-                text-align: left;
-            }
-
-
-        }
-
         
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Sepet Özeti</h2>
-
-        @if (Model.Items.Any())
-        {
-            
-                <div class="cart-list">
-                    @foreach (var item in Model.Items)
-                    {
-                    <div class="cart-item" >
-                        <div>
-                            <img  src="https://picsum.photos/seed/picsum/200/300" alt="@item.Product.Name" />
-                        </div>
-                            
-                            <div class="cart-item-details" >
-                                <h3>@item.Product.Name</h3>
-                                <p>Adet: @item.Quantity</p>
-                                <p>Fiyat: @item.Product.Price.ToString("C")</p>
-                                <p>Stok: @item.Product.Stock</p>
-                            </div>
-                        <div class="cart-item-actions" >
-                                <form asp-action="IncreaseQuantity" method="post" style="display:inline;">
-                                    <input type="hidden" name="productId" value="@item.Product.Id" />
-                                    <button type="submit" class="btn btn-success">Artır</button>
-                                </form>
-                                <form asp-action="DecreaseQuantity" method="post" style="display:inline;">
-                                    <input type="hidden" name="productId" value="@item.Product.Id" />
-                                    <button type="submit" class="btn btn-warning">Azalt</button>
-                                </form>
-                                <form asp-action="RemoveFromCart" method="post" style="display:inline;">
-                                    <input type="hidden" name="productId" value="@item.Product.Id" />
-                                    <button type="submit" class="btn btn-danger">Sil</button>
-                                </form>
-                            </div>
-                        </div>
-                    }
-                
+        <div class="header-tabbar">
+            <!-- Tabbar -->
+            <div class="tabbar">
+                <h1>TUKKAN</h1>
+                <a href="@Url.Action("Index", "Products")" class="@(ViewData["ActiveTab"] == "Products" ? "active" : "")">Ürünler</a>
+                <a href="@Url.Action("Cart", "Products")" class="@(ViewData["ActiveTab"] == "Cart" ? "active" : "")">Sepet</a>
             </div>
-            
+        </div>
 
-            <div class="cart-total">
-                <h3>Toplam Tutar: <span>@Model.TotalAmount.ToString("C")</span></h3>
-            </div>
-
-            <form asp-action="Clear" method="post">
-                <button type="submit" class="clear-cart-btn">Sepeti Temizle</button>
-            </form>
-        }
-        else
-        {
-            <p>Sepetinizde ürün bulunmamaktadır.</p>
-        }
+        <div class="content">
+            @RenderBody()
+        </div>
     </div>
+    <br />
+    <br />
+    <br />
+   
+    <!-- Geliştirilmiş Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Hakkımızda</h4>
+                <p>Modern e-ticaret çözümleri sunan Tukkan, kullanıcılarına güvenli ve kaliteli bir alışveriş deneyimi sunmayı hedefler.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Hızlı Erişim</h4>
+                <ul>
+                    <li><a href="@Url.Action("Index", "Products")">Ürünler</a></li>
+                    <li><a href="@Url.Action("Cart", "Products")">Sepet</a></li>
+                    <li><a href="#">İletişim</a></li>
+                    <li><a href="#">Yardım</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>İletişim</h4>
+                <p>info@tukkan.com</p>
+                <p>+90 123 456 78 90</p>
+                <p>İstanbul, Türkiye</p>
+            </div>
+            <div class="footer-section">
+                <h4>Bizi Takip Edin</h4>
+                <a href="#">Facebook</a> |
+                <a href="#">Instagram</a> |
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2023 Tukkan - Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
 </body>
 </html>
